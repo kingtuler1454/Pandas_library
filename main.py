@@ -1,9 +1,7 @@
 import work
 
 def main():
-    work.read_data()
-    
-        
+    work.create_table()        
 if __name__=="__main__":
     main()
 
