@@ -35,9 +35,7 @@ def create_table():
 
 def check_table(df):
     print("checking")
-    for i in trange(1,len(df)):
-        if df.star[i]==None or df.text[i]==None:
-            df.delete[i]
+    df.dropna()
     add_column(df)
 
 def add_column(df):
@@ -47,4 +45,8 @@ def add_column(df):
         number_symbols_text.append(len(df.text[i]))
 
     df.insert(2,"len_text",number_symbols_text,False)
-    print (df)
+    statistic(df)
+
+
+def statistic(df):
+    print(df.groupby('star').count())
