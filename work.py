@@ -50,3 +50,9 @@ def add_column(df):
 
 def statistic(df):
     print(df.groupby('star').count())
+    sorted_table(df,350)
+
+
+def sorted_table(df,count_words):
+    df=df[df['len_text'] > count_words][['star', 'text','len_text']]
+    
