@@ -1,5 +1,6 @@
 import pandas as pd
 from tqdm import trange
+from nltk.stem import WordNetLemmatizer
 
 import iterator
 
@@ -55,4 +56,18 @@ def statistic(df):
 
 def sorted_table(df,count_words):
     df=df[df['len_text'] > count_words][['star', 'text','len_text']]
-    
+    table_star_statistic(df, 4)
+
+def table_star(df, number_star):
+    df=df[df['star']==number_star]
+
+
+def table_star_statistic(df,number_star):
+    df=df[df['star']==number_star]
+    print(df)
+    print("кол-во слов:\nmin: "+str(df["len_text"].min())+"\nmean: "+str(df["len_text"].mean())+"\nmax: "+str(df["len_text"].max()) )
+
+
+def mnld():
+    lemmatizer = WordNetLemmatizer()
+    print(lemmatizer.lemmatize("wolves"))
