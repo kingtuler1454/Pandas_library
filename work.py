@@ -70,31 +70,26 @@ def table_star_statistic(df,number_star):
 def mnld(df):
     len_words=[0]*20
     morph = pymorphy2.MorphAnalyzer()
+    print("Обрабатываем кол-во слов")
     for i in trange(len(df['text'])):
         words = df.text[i].split() # разбиваем текст на слова
         for word in words:
             p = morph.parse(word)[0]
             if len(p.normal_form)<len(len_words):
                 len_words[len(p.normal_form)-1]+=1
-    print(len_words)
+    print_histogram(len_words)
 
 
-def print_statistic():
-    x=[1,3,5,9]
-    #plt.hist (x )
-    #plt.show()
-    fig=plt.figure(figsize=(0, 20))
-    plt.ylabel('Количество таких слов')
-    plt.xlabel('Количество символов слове')
+def print_histogram(len_words):
+    len_words.insert(0,0)
+    plt.plot(range(21),len_words,'vr')
+    plt.ylabel('Количество слов')
+    plt.xlabel('Длина слова')
     plt.title('Длина слов:')
-    #plt.yticks(x)
-    plt.xlim(20)
-    plt.ylim(0, 22000)
-    plt.grid(False)
-
-    plt.hist(x, color='salmon') 
+    plt.grid(True)
+    plt.xticks(range(1,20))
+    plt.xlim(0)
+    plt.ylim(0)
     plt.show()
 
 
-if __name__=="__main__":
-    print_statistic()
