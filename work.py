@@ -1,6 +1,6 @@
 import pandas as pd
 from tqdm import trange
-from nltk.stem import WordNetLemmatizer
+import pymorphy2
 
 import iterator
 
@@ -17,9 +17,6 @@ def read_file(elem:str):
     return None
 
 def create_table():
-    #df = pd.DataFrame({
-    #'Количество звёзд': ['Kazakhstan', 'Russia', 'Belarus', 'Ukraine'],
-    #'Текст рецензии': [18.28, 144.5, 9.485, 41.98]})
     number_star=[]
     text_opinion=[]
     
@@ -31,7 +28,8 @@ def create_table():
     df = pd.DataFrame({
     'star': number_star,
     'text': text_opinion})
-    check_table(df)
+    mnld(df)
+   #check_table(df)
 
 
 def check_table(df):
@@ -68,6 +66,16 @@ def table_star_statistic(df,number_star):
     print("кол-во слов:\nmin: "+str(df["len_text"].min())+"\nmean: "+str(df["len_text"].mean())+"\nmax: "+str(df["len_text"].max()) )
 
 
-def mnld():
-    lemmatizer = WordNetLemmatizer()
-    print(lemmatizer.lemmatize("wolves"))
+def mnld(df):
+    len_words=[0]*20
+    morph = pymorphy2.MorphAnalyzer()
+    for i in trange(len(df['text'])):
+        words = df.text[i].split() # разбиваем текст на слова
+        for word in words:
+            p = morph.parse(word)[0]
+            if len(p.normal_form)<len(len_words):
+                len_words[len(p.normal_form)-1]+=1
+
+    print(len_words)
+
+    

@@ -2,7 +2,7 @@ import work
 
 
 def main():
-    work.mnld()        
+    work.create_table()        
 if __name__=="__main__":
     main()
 
