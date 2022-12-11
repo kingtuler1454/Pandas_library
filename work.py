@@ -3,52 +3,58 @@ from tqdm import trange
 import pymorphy2
 import matplotlib.pyplot as plt
 
+
 import iterator
 
 
-def read_file(elem:str):
+def read_file(elem: str)->str:
+    """"reading a data from csv"""
     if elem != "['Абсолютный путь к файлу,Относительный путь к файлу,номер звезды']":
         directory = str(elem).split(",")
         #print(len(directory))
-        if len(directory)==3:
+        if len(directory) == 3:
             with open(directory[1], "r") as f:
                 text = f.read()
             
             return text     
     return None
 
-def create_table():
-    number_star=[]
-    text_opinion=[]
-    
+
+def create_table()-> pd.DataFrame:
+    """create a df"""
+    number_star = []
+    text_opinion = []
     for i in range(1,6):
-        iterator_work=iterator.Iterator("classmates1.csv", i)
+        iterator_work = iterator.Iterator("classmates1.csv", i)
         for j in trange(len(iterator.Iterator("classmates1.csv", i).list)):
             number_star.append(i)
             text_opinion.append(read_file(iterator.Iterator("classmates1.csv", i).list[j]))
     df = pd.DataFrame({
     'star': number_star,
     'text': text_opinion})
-    mnld(df)
-   #check_table(df)
+    return df
 
 
-def check_table(df):
+def check_table(df)-> pd.DataFrame:
+    """check table to correct value"""
     print("checking")
     df.dropna()
-    add_column(df)
+    return df
 
-def add_column(df):
+
+def add_column(df)-> pd.DataFrame:
+    """add_column in df """
     print("add_column")
     number_symbols_text=[]
     for i in trange(len(df)):
         number_symbols_text.append(len(df.text[i]))
 
     df.insert(2,"len_text",number_symbols_text,False)
-    statistic(df)
+    return df
 
 
-def statistic(df):
+def statistic(df)-> pd.DataFrame:
+    """"""
     print(df.groupby('star').count())
     sorted_table(df,350)
 
@@ -56,6 +62,7 @@ def statistic(df):
 def sorted_table(df,count_words):
     df=df[df['len_text'] > count_words][['star', 'text','len_text']]
     table_star_statistic(df, 4)
+
 
 def table_star(df, number_star):
     df=df[df['star']==number_star]
