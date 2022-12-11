@@ -1,6 +1,7 @@
 import pandas as pd
 from tqdm import trange
 import pymorphy2
+import matplotlib.pyplot as plt
 
 import iterator
 
@@ -75,7 +76,25 @@ def mnld(df):
             p = morph.parse(word)[0]
             if len(p.normal_form)<len(len_words):
                 len_words[len(p.normal_form)-1]+=1
-
     print(len_words)
 
-    
+
+def print_statistic():
+    x=[1,3,5,9]
+    #plt.hist (x )
+    #plt.show()
+    fig=plt.figure(figsize=(0, 20))
+    plt.ylabel('Количество таких слов')
+    plt.xlabel('Количество символов слове')
+    plt.title('Длина слов:')
+    #plt.yticks(x)
+    plt.xlim(20)
+    plt.ylim(0, 22000)
+    plt.grid(False)
+
+    plt.hist(x, color='salmon') 
+    plt.show()
+
+
+if __name__=="__main__":
+    print_statistic()
