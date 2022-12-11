@@ -53,28 +53,31 @@ def add_column(df)-> pd.DataFrame:
     return df
 
 
-def statistic(df)-> pd.DataFrame:
-    """"""
+def statistic(df)-> None:
+    """statistic in star"""
     print(df.groupby('star').count())
-    sorted_table(df,350)
+    
 
 
-def sorted_table(df,count_words):
+def sorted_table(df,count_words:int)->None:
+    """sorted_tabel on width words"""
     df=df[df['len_text'] > count_words][['star', 'text','len_text']]
-    table_star_statistic(df, 4)
+    
 
-
-def table_star(df, number_star):
+def table_star(df, number_star:int)->None:
+    """Sorted table"""
     df=df[df['star']==number_star]
 
 
-def table_star_statistic(df,number_star):
+def table_star_statistic(df,number_star:int)-> None:
+    """print df where star== number_star"""
     df=df[df['star']==number_star]
     print(df)
     print("кол-во слов:\nmin: "+str(df["len_text"].min())+"\nmean: "+str(df["len_text"].mean())+"\nmax: "+str(df["len_text"].max()) )
 
 
-def mnld(df):
+def mnld(df)-> list:
+    """Lemitization and counter words"""
     len_words=[0]*20
     morph = pymorphy2.MorphAnalyzer()
     print("Обрабатываем кол-во слов")
@@ -84,10 +87,11 @@ def mnld(df):
             p = morph.parse(word)[0]
             if len(p.normal_form)<len(len_words):
                 len_words[len(p.normal_form)-1]+=1
-    print_histogram(len_words)
+    return len_words
 
 
-def print_histogram(len_words):
+def print_histogram(len_words:list)->None:
+    """print histogram on based list"""
     len_words.insert(0,0)
     plt.plot(range(21),len_words,'vr')
     plt.ylabel('Количество слов')
