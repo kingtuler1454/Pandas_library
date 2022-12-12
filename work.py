@@ -45,11 +45,11 @@ def check_table(df)-> pd.DataFrame:
 def add_column(df)-> pd.DataFrame:
     """add_column in df """
     print("add_column")
-    number_symbols_text=[]
+    number_symbols_text = []
     for i in trange(len(df)):
         number_symbols_text.append(len(df.text[i]))
 
-    df.insert(2,"len_text",number_symbols_text,False)
+    df.insert(2, "len_text", number_symbols_text, False)
     return df
 
 
@@ -58,39 +58,39 @@ def statistic(df)-> None:
     print(df.groupby('star').count())
     
 
-
-def sorted_table(df,count_words:int)->None:
+def sorted_table(df,count_words: int)->None:
     """sorted_tabel on width words"""
     df=df[df['len_text'] > count_words][['star', 'text','len_text']]
     
 
-def table_star(df, number_star:int)->None:
+def table_star(df, number_star: int)->None:
     """Sorted table"""
     df=df[df['star']==number_star]
 
 
-def table_star_statistic(df,number_star:int)-> None:
+def table_star_statistic(df,number_star: int)-> None:
     """print df where star== number_star"""
     df=df[df['star']==number_star]
     print(df)
-    print("кол-во слов:\nmin: "+str(df["len_text"].min())+"\nmean: "+str(df["len_text"].mean())+"\nmax: "+str(df["len_text"].max()) )
+    print("кол-во слов:\nmin: " + str(df["len_text"].min()) + "\nmean: " + str(df["len_text"].mean()) 
+    + "\nmax: " + str(df["len_text"].max()) )
 
 
 def mnld(df)-> list:
     """Lemitization and counter words"""
-    len_words=[0]*20
+    len_words = [0]*20
     morph = pymorphy2.MorphAnalyzer()
     print("Обрабатываем кол-во слов")
     for i in trange(len(df['text'])):
         words = df.text[i].split() # разбиваем текст на слова
         for word in words:
             p = morph.parse(word)[0]
-            if len(p.normal_form)<len(len_words):
+            if len(p.normal_form) < len(len_words):
                 len_words[len(p.normal_form)-1]+=1
     return len_words
 
 
-def print_histogram(len_words:list)->None:
+def print_histogram(len_words: list)->None:
     """print histogram on based list"""
     len_words.insert(0,0)
     plt.plot(range(21),len_words,'vr')
@@ -102,5 +102,3 @@ def print_histogram(len_words:list)->None:
     plt.xlim(0)
     plt.ylim(0)
     plt.show()
-
-
